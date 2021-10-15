@@ -2,12 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include "TransformChar.hpp"
 #include "ProcessCmd.hpp"
-
-
-
+#include "Caesar_Cipher.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -61,26 +60,42 @@ int main(int argc, char* argv[])
     std::string inputText;
 
     // Read in user input from stdin/file
-    // Warn that input file option not yet implemented
     if (!inputFile.empty()) {
-        std::cerr << "[warning] input from file ('" << inputFile
-                  << "') not implemented yet, using stdin\n";
+        std::ifstream in_file {inputFile};
+        if (in_file.good()){
+            //in_file >> inputChar ;
+            while (in_file >> inputChar){
+                inputText += {transformChar(inputChar)};
+            }
+        }
+        
+        in_file.close();
+
+        
+        
+    }else {
+        // loop over each character from user input
+        while (std::cin >> inputChar) {
+            inputText += {transformChar(inputChar)};
+    }
     }
 
-    // loop over each character from user input
-    while (std::cin >> inputChar) {
-        inputText += {transformChar(inputChar)};
-    }
+
 
     // Print out the transliterated text
 
     // Warn that output file option not yet implemented
     if (!outputFile.empty()) {
-        std::cerr << "[warning] output to file ('" << outputFile
-                  << "') not implemented yet, using stdout\n";
+        std::ofstream out_file {outputFile};
+        if (out_file.good()){
+            out_file << inputText;
+        }
+        out_file.close();
+        return 0;
+    }else {
+        std::cout << inputText << std::endl;
     }
 
-    std::cout << inputText << std::endl;
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
