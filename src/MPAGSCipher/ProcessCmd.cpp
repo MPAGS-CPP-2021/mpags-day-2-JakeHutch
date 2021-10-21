@@ -6,8 +6,10 @@
 #include "ProcessCmd.hpp"
 
 bool processCommandLine( const std::vector<std::string>& cmdLineArgs,
+    std::size_t& key,
     bool& helpRequested,
     bool& versionRequested,
+    bool& encrypt,
     std::string& inputFile,
     std::string& outputFile 
 )
@@ -27,6 +29,19 @@ bool processCommandLine( const std::vector<std::string>& cmdLineArgs,
             helpRequested = true;
         } else if (cmdLineArgs[i] == "--version") {
             versionRequested = true;
+        }else if (cmdLineArgs[i] == "-d") {
+            encrypt = false ;
+
+        } else if (cmdLineArgs[i] == "-k") {
+            if (i == nCmdLineArgs - 1) {
+                // exit main with non-zero return to indicate failure
+                std::cerr << "[error] -k requires a key" << std::endl;
+                return false ;
+            } else {
+                key = std::stoul(cmdLineArgs[i + 1]) ;
+                ++i;
+            }
+
         } else if (cmdLineArgs[i] == "-i") {
             // Handle input file option
             // Next element is filename unless "-i" is the last argument

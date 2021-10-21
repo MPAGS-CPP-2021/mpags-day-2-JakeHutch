@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 
-//#include "Caesar_Cipher.hpp"
+#include "CaesarCipher.hpp"
 
-std::string runCaesarCipher( const std::string& inputText, const size_t key, const bool encrypt ){
+std::string runCaesarCipher( const std::string& inputText, const std::size_t key, const bool encrypt ){
 
     // initialise and create alphabet variable 
     const std::vector<char> alphabet {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
-    const std::string outputText {""};
+    std::string outputText {""};
 
     char in_Char {'X'};
 
@@ -25,23 +25,24 @@ std::string runCaesarCipher( const std::string& inputText, const size_t key, con
             }
         }
         if (encrypt){
-            if (index + key > 25) {
-                outputText += {alphabet[index + key -25]};
-            }else {
-                outputText += {alphabet[index + key]};
-            }
+            outputText += {alphabet[(index + key) % 26]};
         }else {
-            if (index + key < 0) {
-                outputText += {alphabet[index - key +25]};
-            }else {
-                outputText += {alphabet[index - key]};
-            }            
+            outputText += {alphabet[(index - key) % 26 ]};  //this didnt work for negative numbers, I couldn't work out what it was doing
+            // int new_ind {index-key};
+            // if (new_ind < 0) {
+            //     outputText += {alphabet[index - key +25]};
+            // }else {
+            //     outputText += {alphabet[index - key]};
+            // }             
         }
     }
     return outputText;
 }
-int main () {
-    // this very much does not work... 
-    std::string out_text { runCaesarCipher("Hello 123", 1 , true )};
-    std::cout << out_text;
-}
+// int main () {
+//     // test script
+//     std::string out_text { runCaesarCipher("HELLOONE", 5 , true )};
+//     std::cout << out_text << std::endl ;
+
+//     std::string out_text_d {runCaesarCipher(out_text, 5 , false )};
+//     std::cout << out_text_d << std::endl ;
+// }

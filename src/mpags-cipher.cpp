@@ -6,7 +6,7 @@
 
 #include "TransformChar.hpp"
 #include "ProcessCmd.hpp"
-#include "Caesar_Cipher.hpp"
+#include "CaesarCipher.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -15,14 +15,16 @@ int main(int argc, char* argv[])
     //const std::size_t nCmdLineArgs{cmdLineArgs.size()};
 
     // Options that might be set by the command-line arguments
+    std::size_t key {0};
     bool helpRequested{false};
     bool versionRequested{false};
+    bool encrypt {true};
     std::string inputFile{""};
     std::string outputFile{""};
 
     //call function for processing command line arguements 
 
-    const bool cmdStatus {processCommandLine(cmdLineArgs, helpRequested, versionRequested, inputFile, outputFile)};
+    const bool cmdStatus {processCommandLine(cmdLineArgs, key, helpRequested, versionRequested, encrypt, inputFile, outputFile)};
 
     if (!cmdStatus) {
         return 0;
@@ -37,6 +39,8 @@ int main(int argc, char* argv[])
             << "Available options:\n\n"
             << "  -h|--help        Print this help message and exit\n\n"
             << "  --version        Print version information\n\n"
+            << "  -k               Provide a key to pass to the cypher"
+            << "  -d               Input will be decrypted (default is to encrypt) "
             << "  -i FILE          Read text to be processed from FILE\n"
             << "                   Stdin will be used if not supplied\n\n"
             << "  -o FILE          Write processed text to FILE\n"
@@ -81,19 +85,19 @@ int main(int argc, char* argv[])
     }
 
 
-
-    // Print out the transliterated text
+    //apply the caesar cypher 
+    std::string outputText {runCaesarCipher(inputText, key, encrypt)};
 
     // Warn that output file option not yet implemented
     if (!outputFile.empty()) {
         std::ofstream out_file {outputFile};
         if (out_file.good()){
-            out_file << inputText;
+            out_file << outputText;
         }
         out_file.close();
         return 0;
     }else {
-        std::cout << inputText << std::endl;
+        std::cout << outputText << std::endl;
     }
 
 
