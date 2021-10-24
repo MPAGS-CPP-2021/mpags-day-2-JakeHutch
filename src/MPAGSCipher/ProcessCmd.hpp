@@ -5,7 +5,7 @@
 #include <vector>
 
 bool processCommandLine( const std::vector<std::string>& cmdLineArgs,
-    std::size_t& key,
+    int& key,
     bool& helpRequested,
     bool& versionRequested,
     bool& encrypt,

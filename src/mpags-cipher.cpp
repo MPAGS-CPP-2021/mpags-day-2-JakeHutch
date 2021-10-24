@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     //const std::size_t nCmdLineArgs{cmdLineArgs.size()};
 
     // Options that might be set by the command-line arguments
-    std::size_t key {0};
+    int key {0};
     bool helpRequested{false};
     bool versionRequested{false};
     bool encrypt {true};
@@ -86,9 +86,9 @@ int main(int argc, char* argv[])
 
 
     //apply the caesar cypher 
+
     std::string outputText {runCaesarCipher(inputText, key, encrypt)};
 
-    // Warn that output file option not yet implemented
     if (!outputFile.empty()) {
         std::ofstream out_file {outputFile};
         if (out_file.good()){

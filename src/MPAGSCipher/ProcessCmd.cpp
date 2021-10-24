@@ -6,7 +6,7 @@
 #include "ProcessCmd.hpp"
 
 bool processCommandLine( const std::vector<std::string>& cmdLineArgs,
-    std::size_t& key,
+    int& key,
     bool& helpRequested,
     bool& versionRequested,
     bool& encrypt,
@@ -39,6 +39,10 @@ bool processCommandLine( const std::vector<std::string>& cmdLineArgs,
                 return false ;
             } else {
                 key = std::stoul(cmdLineArgs[i + 1]) ;
+                if ((key < 0) || (key > 25) ) {
+                    std::cerr << "[error] - Key cannot be negative or greater than 25" << std::endl;
+                    return false ;
+                }
                 ++i;
             }
 
